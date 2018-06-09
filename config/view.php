@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * Check module views paths first,
+ * fallback to base module
+ */
+use App\Base\App;
+
+$paths = [];
+foreach (App::modules() as $module) {
+    if ($module == 'Base') {
+        continue;
+    }
+    $paths[] = App::path('app/' . $module . '/resources/views');
+}
+$paths[] = App::path('app/Base/resources/views');
+
 return [
 
     /*
@@ -13,9 +28,13 @@ return [
     |
     */
 
+/*
     'paths' => [
         resource_path('views'),
     ],
+*/
+
+    'paths' => $paths,
 
     /*
     |--------------------------------------------------------------------------

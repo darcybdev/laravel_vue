@@ -210,6 +210,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'App' => App\Base\App::class,
+        'Controller' => App\Base\Http\Controllers\Controller::class,
     ],
 
 ];
