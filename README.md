@@ -14,8 +14,29 @@ Each task in the roadmap needs improvement, but here is a basic rundown of what 
 
  - Routing - works
  - Migrations - works
+ - Artisan - @see Artisan section
  - Seeds - @todo
  - Per module config - @todo
+
+## Artisan
+
+php artisan mod:create Videos
+
+Should create Videos module at app/Videos, with the following files:
+
+app/
+    Videos/
+        routes.php
+        Controllers/
+            VideosController.php
+        database/
+            migrations/
+                2018_01_01_000000_create_videos_table.php
+        Video.php
+
+php artisan mod:list
+
+Should list modules installed and enabled in site
 
 ## Routes
 
