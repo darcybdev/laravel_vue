@@ -16,6 +16,10 @@ There are many different ways of setting up a single repo or separate repos for 
 
 ## Modules
 
+Laramod includes 2 example modules (Auth, Users).
+
+Also included are App and Base, which are required for Laramod to work, but can be edited and extended if needed.
+
 ### App
 
 Common classes and utilities that other modules will want to use, for example:
@@ -33,7 +37,7 @@ Config::get();
 
 ### Base
 
-Base module that all other modules extend their classes from. Overrides a lot of Laravel classes to make modules possible, as well as inject some convenience into common extended classes. The directory structure here should match Illuminate.
+Base module that all other modules will extend some classes from (Model, Controller). Overrides a lot of Laravel classes to make modules possible, as well as inject some convenience. The directory structure here should match Illuminate.
 
 ### Auth
 

@@ -2,7 +2,7 @@
 
 namespace App\Base\Foundation\Providers;
 
-use App\Base\Console\ControllerMakeCommand;
+use App\Base\Routing\Console\ControllerMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Foundation\Console\ModelMakeCommand;
