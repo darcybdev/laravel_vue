@@ -19,6 +19,23 @@ class App extends \Illuminate\Support\Facades\App
     }
 
     /**
+     * Check if module exists by name
+     * @param string $name
+     * @return boolean
+     */
+    public static function moduleExists($name)
+    {
+        $modules = static::modules();
+        $name = strtolower($name);
+        foreach ($modules as $module) {
+            if (strtolower($module) == $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the fully qualified path from the base
      * of the repo
      */

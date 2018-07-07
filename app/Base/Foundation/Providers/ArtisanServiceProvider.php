@@ -2,6 +2,8 @@
 
 namespace App\Base\Foundation\Providers;
 
+use App\Base\Console\ControllerMakeCommand;
+
 class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanServiceProvider
 {
     /**
@@ -9,10 +11,10 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
      *
      * @return void
      */
-    protected function registerAppNameCommand()
+    protected function registerControllerMakeCommand()
     {
-        $this->app->singleton('command.app.name', function ($app) {
-            return new AppNameCommand($app['composer'], $app['files']);
+        $this->app->singleton('command.controller.make', function ($app) {
+            return new ControllerMakeCommand($app['files']);
         });
     }
 }

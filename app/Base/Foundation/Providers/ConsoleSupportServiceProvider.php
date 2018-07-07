@@ -2,7 +2,7 @@
 
 namespace App\Base\Foundation\Providers;
 
-use Illuminate\Foundation\Providers\ArtisanServiceProvider;
+use App\Base\Foundation\Providers\ArtisanServiceProvider;
 use Illuminate\Foundation\Providers\ComposerServiceProvider;
 use App\Base\Database\MigrationServiceProvider;
 
