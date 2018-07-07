@@ -1,49 +1,56 @@
-# laramod
+# laramod-api
 
-Laramod is Laravel Modularized. The goal of this project is to extend the default Laravel setup to enable a modularized approach to Laravel.
+Laramod api is a server side project, ready to be used with your front end app. It is built on the Laravel Modularized project: https://github.com/jbizzay/laramod
 
-## Why
+## Installation
 
-With multiple projects running on Laravel, it quickly becomes apparent that spinning up a new project will require cherry picking files from throughout another project. Controllers, routes, models, it can be tedious to track these files down.
+```
+composer install
+php artisan db:migrate
+composer start
+```
 
-Nailed down that Auth module, and want to use it in another project? Simply copy it to your new project and you're done.
+This should install all dependencies and spin up a php server running the api at http://localhost:8877. 
 
-## Roadmap
+There are many different ways of setting up a single repo or separate repos for client and server apps, which will be covered later.
 
-Each task in the roadmap needs improvement, but here is a basic rundown of what works and doesn't
+## Modules
 
- - Routing - works
- - Migrations - works
- - Artisan - @see Artisan section
- - Seeds - @todo
- - Per module config - @todo
+### App
 
-## Artisan
+Common classes and utilities that other modules will want to use, for example:
 
-php artisan mod:create Videos
+```
+// Get all modules:
+App::modules();
 
-Should create Videos module at app/Videos, with the following files:
+// Get a path to a module:
+App::path('app/Auth');
 
-app/
-    Videos/
-        routes.php
-        Controllers/
-            VideosController.php
-        database/
-            migrations/
-                2018_01_01_000000_create_videos_table.php
-        Video.php
+// Get all config data:
+Config::get();
+```
 
-php artisan mod:list
+### Base
 
-Should list modules installed and enabled in site
+Base module that all other modules extend their classes from. Overrides a lot of Laravel classes to make modules possible, as well as inject some convenience into common extended classes. The directory structure here should match Illuminate.
 
-## Routes
+### Auth
 
-Each module can provide a routes.php file, which will be picked up by the app/Base/Providers/RouteServiceProvider. By default, each route defined here will be prefixed by the module name and be namespaced to the module's controller directory. For instance:
+Handles authentication, registration, password resets. Depends on the User module
 
-Users module has file routes.php, with:
+GET  /auth - Returns current logged in user or guest
+POST /auth/login - Attempts login
+POST /auth/reset - Sends reset password email
+POST /auth/reset-confirm - Resets password with token
+POST /auth/register - Registers new account
 
-Route::get('', 'UsersController@index');
+### User
 
-This will route /users to app/Users/Controllers/UsersController.php and call method index
+Users of the application
+
+GET /users - Returns list of users
+POST /users - Create a user
+PUT /users/{id} - Update a user
+DELETE /users/{id} - Delete a user
+
