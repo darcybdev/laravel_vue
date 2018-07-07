@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Console;
+namespace App\Base\Routing\Console;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
@@ -46,6 +46,34 @@ class ControllerMakeCommand extends \Illuminate\Routing\Console\ControllerMakeCo
             $name = $this->argument('module') . 'Controller';
         }
         return $name;
+    }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        $stub = null;
+
+        if ($this->option('parent')) {
+            $stub = '/stubs/controller.nested.stub';
+        } elseif ($this->option('model')) {
+            $stub = '/stubs/controller.model.stub';
+        } elseif ($this->option('resource')) {
+            $stub = '/stubs/controller.stub';
+        }
+
+        if ($this->option('api') && is_null($stub)) {
+            $stub = '/stubs/controller.api.stub';
+        } elseif ($this->option('api') && ! is_null($stub)) {
+            $stub = str_replace('.stub', '.api.stub', $stub);
+        }
+
+        $stub = $stub ?? '/stubs/controller.plain.stub';
+
+        return __DIR__.$stub;
     }
 
     /**
