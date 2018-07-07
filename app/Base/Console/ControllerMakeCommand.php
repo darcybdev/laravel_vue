@@ -56,6 +56,5 @@ class ControllerMakeCommand extends \Illuminate\Routing\Console\ControllerMakeCo
     protected function rootNamespace()
     {
         return 'App\\' . $this->argument('module') . '\\';
-        return $this->laravel->getNamespace();
     }
 }
