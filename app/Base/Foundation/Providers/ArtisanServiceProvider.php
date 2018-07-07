@@ -3,7 +3,9 @@
 namespace App\Base\Foundation\Providers;
 
 use App\Base\Console\ControllerMakeCommand;
+use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
+use App\Base\Foundation\Console\ModelMakeCommand;
 
 class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanServiceProvider
 {
@@ -24,6 +26,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
      *
      * @return void
      */
+    protected function registerFactoryMakeCommand()
+    {
+        $this->app->singleton('command.factory.make', function ($app) {
+            return new FactoryMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
     protected function registerMigrateMakeCommand()
     {
         $this->app->singleton('command.migrate.make', function ($app) {
@@ -35,6 +49,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
             $composer = $app['composer'];
 
             return new MigrateMakeCommand($creator, $composer);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModelMakeCommand()
+    {
+        $this->app->singleton('command.model.make', function ($app) {
+            return new ModelMakeCommand($app['files']);
         });
     }
 }

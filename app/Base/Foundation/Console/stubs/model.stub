@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Base\Model;
+
+class DummyClass extends Model
+{
+    //
+}

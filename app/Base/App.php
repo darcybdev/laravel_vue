@@ -47,4 +47,12 @@ class App extends \Illuminate\Support\Facades\App
         }
         return base_path();
     }
+
+    /**
+     * Reset any caches
+     */
+    public static function reset()
+    {
+        static::$modules = null;
+    }
 }
