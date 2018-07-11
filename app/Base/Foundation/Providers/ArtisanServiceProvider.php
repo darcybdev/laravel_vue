@@ -5,10 +5,24 @@ namespace App\Base\Foundation\Providers;
 use App\Base\Routing\Console\ControllerMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
+use App\Base\Foundation\Console\ChannelMakeCommand;
 use App\Base\Foundation\Console\ModelMakeCommand;
+use App\Base\Foundation\Console\RequestMakeCommand;
 
 class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanServiceProvider
 {
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerChannelMakeCommand()
+    {
+        $this->app->singleton('command.channel.make', function ($app) {
+            return new ChannelMakeCommand($app['files']);
+        });
+    }
+
     /**
      * Register the command.
      *
@@ -61,6 +75,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.model.make', function ($app) {
             return new ModelMakeCommand($app['files']);
+        });
+    }
+
+     /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerRequestMakeCommand()
+    {
+        $this->app->singleton('command.request.make', function ($app) {
+            return new RequestMakeCommand($app['files']);
         });
     }
 }

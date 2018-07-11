@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Base\Database\Console\Factories;
+namespace App\Base\Foundation\Console;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Support\Str;
 
-use App\Common\File;
-
-class FactoryMakeCommand extends \Illuminate\Database\Console\Factories\FactoryMakeCommand
+class RequestMakeCommand extends \Illuminate\Foundation\Console\RequestMakeCommand
 {
     /**
      * Get the console command arguments.
@@ -29,20 +28,8 @@ class FactoryMakeCommand extends \Illuminate\Database\Console\Factories\FactoryM
      */
     protected function getPath($name)
     {
-        $name = str_replace(
-            ['\\', '/'], '', $this->argument('name')
-        );
-        return File::path('app/' . ucfirst($this->argument('module')) . '/database/factories/' . $name . '.php');
-    }
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__.'/stubs/factory.stub';
+        $name = Str::replaceFirst('App\\', '', $name);
+        return $this->laravel['path'].'/'.str_replace('\\', '/', $name).'.php';
     }
 
     /**

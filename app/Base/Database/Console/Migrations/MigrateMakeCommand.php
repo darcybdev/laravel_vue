@@ -2,7 +2,8 @@
 
 namespace App\Base\Database\Console\Migrations;
 
-use App\Base\App;
+use App\Common\Module;
+use App\Common\File;
 
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
@@ -30,11 +31,11 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
                             : $targetPath;
         }
         $module = ucfirst(trim($this->argument('module')));
-        if ( ! App::moduleExists($module)) {
+        if ( ! Module::exists($module)) {
             $this->error('Module: ' . $module . ' doesn\'t exist');
             die;
         }
-        $path = App::path('app/' . $module . '/database/migrations');
+        $path = File::path('app/' . $module . '/database/migrations');
         if ( ! file_exists($path)) {
             mkdir($path, 0755, true);
         }

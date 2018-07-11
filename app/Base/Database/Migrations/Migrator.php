@@ -4,7 +4,8 @@ namespace App\Base\Database\Migrations;
 
 use Illuminate\Support\Collection;
 
-use App\Base\App;
+use App\Common\Module;
+use App\Common\File;
 
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
@@ -18,9 +19,9 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     {
         // Ignore paths for now, use module paths
         $paths = [];
-        $modules = App::modules();
+        $modules = Module::list();
         foreach ($modules as $module) {
-            $paths[] = App::path('app/' . $module . '/database/migrations');
+            $paths[] = File::path('app/' . $module . '/database/migrations');
         }
 
         return Collection::make($paths)->flatMap(function ($path) {
