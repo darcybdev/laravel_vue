@@ -5,6 +5,8 @@ namespace App\Base\Foundation\Providers;
 use App\Base\Routing\Console\ControllerMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
+use App\Base\Database\Console\Seeds\SeedCommand;
+use App\Base\Database\Console\Seeds\SeederMakeCommand;
 use App\Base\Foundation\Console\ChannelMakeCommand;
 use App\Base\Foundation\Console\ModelMakeCommand;
 use App\Base\Foundation\Console\RequestMakeCommand;
@@ -87,6 +89,30 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.request.make', function ($app) {
             return new RequestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerSeedCommand()
+    {
+        $this->app->singleton('command.seed', function ($app) {
+            return new SeedCommand($app['db']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerSeederMakeCommand()
+    {
+        $this->app->singleton('command.seeder.make', function ($app) {
+            return new SeederMakeCommand($app['files'], $app['composer']);
         });
     }
 }
