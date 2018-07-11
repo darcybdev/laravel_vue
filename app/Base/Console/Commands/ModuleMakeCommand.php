@@ -4,7 +4,8 @@ namespace App\Base\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Base\App;
+use App\Common\Module;
+use App\Common\File;
 
 class ModuleMakeCommand extends Command
 {
@@ -41,15 +42,15 @@ class ModuleMakeCommand extends Command
     {
         $name = $this->argument('moduleName');
         $name = ucfirst($name);
-        if (App::moduleExists($name)) {
+        if (Module::exists($name)) {
             $this->error('Module: ' . $name . ' already exists');
             return;
         }
-        $path = App::path('app/' . $name);
+        $path = File::path('app/' . $name);
         mkdir($path, 0755);
 
         // Reset App module cache
-        App::reset();
+        Module::reset();
 
         $modelName = rtrim($name, 's');
 
@@ -61,7 +62,7 @@ class ModuleMakeCommand extends Command
         ]);
 
         // Create routes file
-        $stub = file_get_contents(App::path('app/Base/stubs/routes.stub'));
+        $stub = file_get_contents(File::path('app/Base/stubs/routes.stub'));
         $stub = str_replace('DummyControllerClass', $name . 'Controller', $stub);
         file_put_contents($path . '/routes.php', $stub);
 

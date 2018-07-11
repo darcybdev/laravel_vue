@@ -5,7 +5,8 @@ namespace App\Base\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-use App;
+use App\Common\Module;
+use App\Common\File;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -61,9 +62,9 @@ class RouteServiceProvider extends ServiceProvider
         Route::get('/', function () {
             return redirect()->route('home');
         });
-        $modules = App::modules();
+        $modules = Module::list();
         foreach ($modules as $module) {
-            $file = App::path('app/' . $module . '/routes.php');
+            $file = File::path('app/' . $module . '/routes.php');
             if (is_file($file)) {
                 $name = basename($module);
                 $nameLower = strtolower($name);

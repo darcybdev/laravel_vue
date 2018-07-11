@@ -4,16 +4,17 @@
  * Check module views paths first,
  * fallback to base module
  */
-use App\Base\App;
+use App\Common\Module;
+use App\Common\File;
 
 $paths = [];
-foreach (App::modules() as $module) {
-    if ($module == 'Base') {
+foreach (Module::list() as $module) {
+    if ($module == 'Base' || $module == 'Common') {
         continue;
     }
-    $paths[] = App::path('app/' . $module . '/resources/views');
+    $paths[] = File::path('app/' . $module . '/resources/views');
 }
-$paths[] = App::path('app/Base/resources/views');
+$paths[] = File::path('app/Base/resources/views');
 
 return [
 
