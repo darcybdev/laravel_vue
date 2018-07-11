@@ -4,6 +4,8 @@ namespace App\Base\Database\Console\Factories;
 
 use Symfony\Component\Console\Input\InputArgument;
 
+use App\Common\File;
+
 class FactoryMakeCommand extends \Illuminate\Database\Console\Factories\FactoryMakeCommand
 {
     /**
@@ -30,7 +32,7 @@ class FactoryMakeCommand extends \Illuminate\Database\Console\Factories\FactoryM
         $name = str_replace(
             ['\\', '/'], '', $this->argument('name')
         );
-        return \App::path('app/' . ucfirst($this->argument('module')) . '/database/factories/' . $name . '.php');
+        return File::path('app/' . ucfirst($this->argument('module')) . '/database/factories/' . $name . '.php');
     }
 
     /**
