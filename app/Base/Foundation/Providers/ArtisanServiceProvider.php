@@ -8,6 +8,8 @@ use App\Base\Foundation\Console\ExceptionMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Foundation\Console\JobMakeCommand;
 use App\Base\Foundation\Console\ListenerMakeCommand;
+use App\Base\Foundation\Console\MailMakeCommand;
+use App\Base\Routing\Console\MiddlewareMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
@@ -111,6 +113,30 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.listener.make', function ($app) {
             return new ListenerMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMailMakeCommand()
+    {
+        $this->app->singleton('command.mail.make', function ($app) {
+            return new MailMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerMiddlewareMakeCommand()
+    {
+        $this->app->singleton('command.middleware.make', function ($app) {
+            return new MiddlewareMakeCommand($app['files']);
         });
     }
 
