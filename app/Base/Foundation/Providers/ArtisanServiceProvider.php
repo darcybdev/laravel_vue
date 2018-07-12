@@ -3,6 +3,7 @@
 namespace App\Base\Foundation\Providers;
 
 use App\Base\Routing\Console\ControllerMakeCommand;
+use App\Base\Foundation\Console\EventMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
@@ -47,6 +48,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.controller.make', function ($app) {
             return new ControllerMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerEventMakeCommand()
+    {
+        $this->app->singleton('command.event.make', function ($app) {
+            return new EventMakeCommand($app['files']);
         });
     }
 
