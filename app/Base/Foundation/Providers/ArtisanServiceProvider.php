@@ -23,6 +23,7 @@ use App\Base\Foundation\Console\ChannelMakeCommand;
 use App\Base\Foundation\Console\ConsoleMakeCommand;
 use App\Base\Foundation\Console\ModelMakeCommand;
 use App\Base\Foundation\Console\RequestMakeCommand;
+use App\Base\Foundation\Console\TestMakeCommand;
 
 class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanServiceProvider
 {
@@ -282,6 +283,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.seeder.make', function ($app) {
             return new SeederMakeCommand($app['files'], $app['composer']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerTestMakeCommand()
+    {
+        $this->app->singleton('command.test.make', function ($app) {
+            return new TestMakeCommand($app['files']);
         });
     }
 }
