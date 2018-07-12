@@ -7,6 +7,7 @@ use App\Base\Foundation\Console\EventMakeCommand;
 use App\Base\Foundation\Console\ExceptionMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Foundation\Console\JobMakeCommand;
+use App\Base\Foundation\Console\ListenerMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
@@ -98,6 +99,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.job.make', function ($app) {
             return new JobMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerListenerMakeCommand()
+    {
+        $this->app->singleton('command.listener.make', function ($app) {
+            return new ListenerMakeCommand($app['files']);
         });
     }
 
