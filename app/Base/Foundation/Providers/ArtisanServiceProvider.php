@@ -6,6 +6,7 @@ use App\Base\Routing\Console\ControllerMakeCommand;
 use App\Base\Foundation\Console\EventMakeCommand;
 use App\Base\Foundation\Console\ExceptionMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
+use App\Base\Foundation\Console\JobMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
@@ -85,6 +86,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.factory.make', function ($app) {
             return new FactoryMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerJobMakeCommand()
+    {
+        $this->app->singleton('command.job.make', function ($app) {
+            return new JobMakeCommand($app['files']);
         });
     }
 
