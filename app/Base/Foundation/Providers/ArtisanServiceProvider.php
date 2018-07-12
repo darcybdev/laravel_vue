@@ -15,6 +15,7 @@ use App\Base\Foundation\Console\NotificationMakeCommand;
 use App\Base\Foundation\Console\ObserverMakeCommand;
 use App\Base\Foundation\Console\PolicyMakeCommand;
 use App\Base\Foundation\Console\ProviderMakeCommand;
+use App\Base\Foundation\Console\ResourceMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
 use App\Base\Foundation\Console\ChannelMakeCommand;
@@ -232,6 +233,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.request.make', function ($app) {
             return new RequestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerResourceMakeCommand()
+    {
+        $this->app->singleton('command.resource.make', function ($app) {
+            return new ResourceMakeCommand($app['files']);
         });
     }
 
