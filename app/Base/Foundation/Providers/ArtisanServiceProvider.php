@@ -4,6 +4,7 @@ namespace App\Base\Foundation\Providers;
 
 use App\Base\Routing\Console\ControllerMakeCommand;
 use App\Base\Foundation\Console\EventMakeCommand;
+use App\Base\Foundation\Console\ExceptionMakeCommand;
 use App\Base\Database\Console\Factories\FactoryMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
@@ -60,6 +61,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.event.make', function ($app) {
             return new EventMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerExceptionMakeCommand()
+    {
+        $this->app->singleton('command.exception.make', function ($app) {
+            return new ExceptionMakeCommand($app['files']);
         });
     }
 
