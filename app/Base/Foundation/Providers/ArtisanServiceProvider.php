@@ -8,6 +8,7 @@ use App\Base\Database\Console\Migrations\MigrateMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
 use App\Base\Foundation\Console\ChannelMakeCommand;
+use App\Base\Foundation\Console\ConsoleMakeCommand;
 use App\Base\Foundation\Console\ModelMakeCommand;
 use App\Base\Foundation\Console\RequestMakeCommand;
 
@@ -22,6 +23,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.channel.make', function ($app) {
             return new ChannelMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerConsoleMakeCommand()
+    {
+        $this->app->singleton('command.console.make', function ($app) {
+            return new ConsoleMakeCommand($app['files']);
         });
     }
 

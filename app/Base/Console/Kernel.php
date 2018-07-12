@@ -5,6 +5,8 @@ namespace App\Base\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\Common\Module;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -36,6 +38,11 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+
+        // Load commands for all modules
+        foreach (Module::list() as $module) {
+            $this->load(Module::path($module) . '/Console/Commands');
+        }
 
         require base_path('routes/console.php');
     }
