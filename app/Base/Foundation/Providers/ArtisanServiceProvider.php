@@ -11,6 +11,7 @@ use App\Base\Foundation\Console\ListenerMakeCommand;
 use App\Base\Foundation\Console\MailMakeCommand;
 use App\Base\Routing\Console\MiddlewareMakeCommand;
 use App\Base\Database\Console\Migrations\MigrateMakeCommand;
+use App\Base\Foundation\Console\NotificationMakeCommand;
 use App\Base\Database\Console\Seeds\SeedCommand;
 use App\Base\Database\Console\Seeds\SeederMakeCommand;
 use App\Base\Foundation\Console\ChannelMakeCommand;
@@ -168,6 +169,18 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     {
         $this->app->singleton('command.model.make', function ($app) {
             return new ModelMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerNotificationMakeCommand()
+    {
+        $this->app->singleton('command.notification.make', function ($app) {
+            return new NotificationMakeCommand($app['files']);
         });
     }
 
