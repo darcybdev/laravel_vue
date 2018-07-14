@@ -36,6 +36,17 @@ class Module
     }
 
     /**
+     * Get file path to module directory
+     */
+    public static function path($name)
+    {
+        if (static::exists($name)) {
+            return File::path('app/' . ucfirst($name));
+        }
+        return false;
+    }
+
+    /**
      * Reset any caches
      */
     public static function reset()
