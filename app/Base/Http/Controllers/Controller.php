@@ -22,7 +22,7 @@ class Controller extends BaseController
      * @param  array  $customAttributes
      * @return array
      */
-    public function validate(Request $request, array $rules,
+    public function _validate(Request $request, array $rules,
                              array $messages = [], array $customAttributes = [])
     {
         $validator = $this->getValidationFactory()

@@ -3,9 +3,10 @@
 namespace App\Auth\Http\Controllers;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 use App\Base\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Common\Response;
 
 class LoginController extends Controller
 {
@@ -36,17 +37,18 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        //$this->middleware('guest')->except('logout');
     }
 
     public function login(Request $request)
     {
-        $invalid = $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-        if ($invalid) {
-            return $invalid;
+        try {
+            $this->validate($request, [
+                'email' => 'required',
+                'password' => 'required'
+            ]);
+        } catch (\Exception $e) {
+            return Response::invalid($e->errors());
         }
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -66,6 +68,40 @@ class LoginController extends Controller
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
 
-        return $this->sendFailedLoginResponse($request);
+        try {
+            return $this->sendFailedLoginResponse($request);
+        } catch (\Exception $e) {
+            return Response::invalid($e->errors());
+        }
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return Response::ok();
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user()) ?: $this->guard()->user();
     }
 }
