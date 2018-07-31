@@ -30,6 +30,8 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected $usernameField = 'email';
+
     /**
      * Create a new controller instance.
      *
@@ -44,12 +46,18 @@ class LoginController extends Controller
     {
         try {
             $this->validate($request, [
-                'email' => 'required',
-                'password' => 'required'
+                'username' => 'required|string',
+                'password' => 'required|string'
             ]);
         } catch (\Exception $e) {
             return Response::invalid($e->errors());
         }
+
+        // Needed to check by username or email
+        $request->merge([
+            'email' => $request->username
+        ]);
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -59,6 +67,13 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
+        // Attempt by email
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // Attempt by username
+        $this->usernameField = 'username';
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -103,5 +118,15 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user()) ?: $this->guard()->user();
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return $this->usernameField;
     }
 }
