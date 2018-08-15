@@ -14,10 +14,11 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = new User([
-            'name' => 'admin',
+            'username' => 'admin',
             'email' => 'admin@example.org',
-            'password' => bcrypt('password')
+            'password' => Hash::make('password')
         ]);
+        $user->active = true;
         $user->save();
     }
 }
