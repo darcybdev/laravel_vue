@@ -16,8 +16,9 @@ class UserSeeder extends Seeder
         $user = new User([
             'username' => 'admin',
             'email' => 'admin@example.org',
-            'password' => bcrypt('password')
+            'password' => Hash::make('password')
         ]);
+        $user->active = true;
         $user->save();
     }
 }
