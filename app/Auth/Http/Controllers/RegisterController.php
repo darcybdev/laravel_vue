@@ -10,6 +10,7 @@ use Illuminate\Auth\Events\Registered;
 
 use App\User\User;
 use App\Base\Http\Controllers\Controller;
+use App\Common\Token;
 use App\Common\Response;
 
 class RegisterController extends Controller
@@ -88,10 +89,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = new User([
             'username' => $data['username'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password'])
         ]);
+        $user->confirmation_code = Token::generate();
+        $user->active = false;
+        $user->save();
+        return $user;
     }
 }
