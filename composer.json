@@ -49,7 +49,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
         ],
-        "start": "php -S localhost:8877 -t public"
+        "start": "php -S localhost:8443 -t public"
     },
     "config": {
         "preferred-install": "dist",
