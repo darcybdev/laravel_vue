@@ -17,4 +17,5 @@ This should install all dependencies and spin up a php server running the api at
 ## Plugins
 
 Vue Scrollto - https://github.com/rigor789/vue-scrollto
+Vue Toasted - https://github.com/shakee93/vue-toasted
 

@@ -1,67 +1,75 @@
-
+import Vue from 'vue';
 import authService from './auth.service';
-import appRouter from '@/App/src/router';
 
 const user = JSON.parse(localStorage.getItem('user'));
-const state = user
-  ? {
-    status: {
-      loggedIn: true
-    },
-    user
-  }
-  : {
-    status: {},
-    user: null
-  };
 
-console.log('state', state);
-
-const actions = {
-  login({ dispatch, commit }, { username, password }) {
-    commit('loginRequest', { username });
-
-    authService.login(username, password)
-      .then(user => {
-        commit('loginSuccess', user);
-        appRouter.push('/');
-        //appRouter.go();
-      }, error => {
-        commit('loginFailure', error);
-        dispatch('alert/error', error, { root: true });
-      });
-  },
-  logout({ commit }) {
-    authService.logout()
-      .then(response => {
-        commit('logout');
-        console.log('you have logged out');
-      });
-  }
-};
-
-const mutations = {
-  loginRequest(state, user) {
-    state.status = { loggingIn: true };
-    state.user = user;
-  },
-  loginSuccess(state, user) {
-    state.status = { loggedIn: true };
-    state.user = user;
-  },
-  loginFailure(state) {
-    state.status = {};
-    state.user = null;
-  },
-  logout(state) {
-    state.status = {};
-    state.user = null;
-  }
-};
-
-export const auth = {
+export default {
   namespaced: true,
-  state,
-  actions,
-  mutations
+  state: {
+    user: user ? user : null,
+    status: null,
+    error: null
+  },
+  mutations: {
+    AuthLoginRequest (state) {
+      state.status = 'loading';
+    },
+    AuthLoginSuccess (state, user) {
+      state.user = user;
+      state.status = 'success';
+      state.error = null;
+    },
+    AuthLoginError (state, error) {
+      state.status = 'error';
+      state.error = error;
+    },
+    AuthLogout (state) {
+      state.user = null;
+      state.status = null;
+      state.error = null;
+    },
+    AuthRegisterRequest (state) {
+      state.status = 'loading';
+    },
+    AuthRegisterSuccess (state) {
+      state.status = 'success';
+      state.error = null;
+    },
+    AuthRegisterError (state, error) {
+      state.status = 'error';
+      state.error = error;
+    }
+  },
+  actions: {
+    login ({ commit }, { username, password }) {
+      commit('AuthLoginRequest');
+      return authService.login(username, password)
+        .then(user => {
+          commit('AuthLoginSuccess', user);
+          Vue.toasted.show('Welcome back, ' + user.username + '!');
+          return Promise.resolve(user);
+        })
+        .catch(error => {
+          commit('AuthLoginError', error.response.data);
+          return Promise.reject(error.response.data);
+        });
+    },
+    logout ({ commit }) {
+      authService.logout()
+        .then(response => {
+          commit('AuthLogout');
+          Vue.toasted.show('You have logged out.');
+        });
+    },
+    register ({ commit }, { email, username, password }) {
+      commit('AuthRegisterRequest');
+      return authService.register(email, username, password)
+        .then(response => {
+          commit('AuthRegisterSuccess');
+        })
+        .catch(response => {
+          commit('AuthRegisterError', response.data);
+        });
+    }
+  }
 };

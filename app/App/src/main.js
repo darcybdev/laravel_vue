@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import axios from 'axios';
 import BootstrapVue from 'bootstrap-vue';
 import VueScrollto from 'vue-scrollto';
 import VueScrollClass from 'vue-scroll-class';
+import VueToasted from 'vue-toasted';
 
 import App from './App.vue';
 import router from './router';
@@ -26,9 +28,25 @@ Vue.use(VueScrollto, {
   onCancel: false,
   x: false,
   y: true
- });
+});
+Vue.use(VueToasted, {
+  duration: 3000
+});
 
 Vue.directive('scroll-class', VueScrollClass);
+
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    console.log('401 response');
+    authService.logout()
+      .then(() => {
+        router.replace('/');
+      });
+  }
+  return Promise.reject(error);
+});
 
 new Vue({
   router,
