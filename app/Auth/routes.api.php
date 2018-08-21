@@ -7,4 +7,4 @@ Route::post('login', 'LoginController@login');
 Route::get('logout', 'LoginController@logout');
 Route::post('register', 'RegisterController@register');
 Route::put('reset', 'ResetPasswordController@reset');
-Route::get('front-reset', 'ResetPasswordController@none')->name('password.reset');
+Route::get('reset', 'ResetPasswordController@none')->name('password.reset');
