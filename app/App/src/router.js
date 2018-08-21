@@ -1,18 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Home from '@/Home/src/components/Home';
 import LandingPage from '@/Home/src/components/LandingPage';
 
 Vue.use(Router);
 
-export default new Router({
+const appRouter = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: LandingPage
+      component: Home
     },
     {
       path: '/about',
@@ -22,6 +23,27 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 });
+
+appRouter.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/'];
+  const authRequired = !publicPages.includes(to.path);
+  //const loggedIn = localStorage.getItem('user');
+
+  const loggedIn = true;
+
+  if (authRequired && !loggedIn) {
+    return next('/');
+  }
+
+  next();
+});
+
+export default appRouter;

@@ -7,20 +7,29 @@
     <b-form-group label="Password" label-for="password">
       <b-form-input v-model="fd.password" type="password" />
     </b-form-group>
-    <b-button @click="login" variant="primary">Login</b-button>
+    <b-button @click="submitLogin" variant="primary">Login</b-button>
   </div>
 </template>
 <script>
-export default {
-  data: () => ({
-    fd: {
-      username: '',
-      password: ''
-    }
-  }),
-  methods: {
-    login: () => {
 
+import { mapActions } from 'vuex';
+
+export default {
+  data () {
+    return {
+      fd: {
+        username: '',
+        password: ''
+      }
+    };
+  },
+  methods: {
+    ...mapActions('auth', ['login']),
+    submitLogin () {
+      this.login({
+        username: this.fd.username,
+        password: this.fd.password
+      });
     }
   }
 }
