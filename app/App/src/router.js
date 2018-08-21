@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Confirm from '@/Auth/src/components/Confirm';
 import Home from '@/Home/src/components/Home';
 import LandingPage from '@/Home/src/components/LandingPage';
 
@@ -14,6 +15,10 @@ const appRouter = new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/auth/confirm',
+      component: Confirm
     },
     {
       path: '/about',

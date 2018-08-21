@@ -2,6 +2,22 @@ import axios from 'axios';
 
 export default {
 
+  confirm (userId, token) {
+    return axios.put('/api/auth/confirm', {
+      u: userId,
+      t: token
+    });
+  },
+
+  forgotPassword (email) {
+    return axios.post('/api/auth/forgot', {
+        email
+      })
+      .then(response => {
+        return Promise.resolve(true);
+      });
+  },
+
   login (username, password) {
     return axios.post('/api/auth/login', {
         username,

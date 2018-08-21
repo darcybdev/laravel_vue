@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import authService from './auth.service';
+import appRouter from '@/App/src/router';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -11,6 +12,16 @@ export default {
     error: null
   },
   mutations: {
+    AuthConfirmRequest (state) {
+      state.status = 'loading';
+    },
+    AuthConfirmSuccess (state) {
+      state.status = 'success';
+      state.error = null;
+    },
+    AuthForgotPassword (state) {
+      state.status = 'success';
+    },
     AuthLoginRequest (state) {
       state.status = 'loading';
     },
@@ -41,6 +52,20 @@ export default {
     }
   },
   actions: {
+    confirm ({ commit }, { userId, token }) {
+      commit('AuthConfirmRequest');
+      return authService.confirm(userId, token)
+        .then(() => {
+          Vue.toasted.show('Your account has been confirmed. Please login');
+          appRouter.replace('/');
+          return Promise.resolve(true);
+        })
+        .catch(() => {
+          Vue.toasted.show('Invalid url');
+          appRouter.replace('/');
+          return Promise.reject(false);
+        });
+    },
     login ({ commit }, { username, password }) {
       commit('AuthLoginRequest');
       return authService.login(username, password)
@@ -67,8 +92,16 @@ export default {
         .then(response => {
           commit('AuthRegisterSuccess');
         })
-        .catch(response => {
-          commit('AuthRegisterError', response.data);
+        .catch(error => {
+          commit('AuthRegisterError', error.response.data.errors);
+          return Promise.reject(error.response.data.errors);
+        });
+    },
+    forgotPassword ({ commit }, { email }) {
+      return authService.forgotPassword(email)
+        .then(response => {
+          commit('AuthForgotPassword', email);
+          return Promise.resolve(true);
         });
     }
   }
