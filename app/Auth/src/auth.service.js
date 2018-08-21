@@ -47,6 +47,15 @@ export default {
       .then(response => {
         return Promise.resolve(true);
       });
+  },
+
+  reset (email, password, password_confirmation, token) {
+    return axios.put('/api/auth/reset', {
+      email,
+      password,
+      password_confirmation,
+      token
+    });
   }
 
 };

@@ -49,6 +49,17 @@ export default {
     AuthRegisterError (state, error) {
       state.status = 'error';
       state.error = error;
+    },
+    AuthResetError (state, error) {
+      state.status = 'error';
+      state.error = error;
+    },
+    AuthResetRequest (state) {
+      state.status = 'loading';
+    },
+    AuthResetSuccess (state) {
+      state.status = 'success';
+      state.error = null;
     }
   },
   actions: {
@@ -72,6 +83,11 @@ export default {
         .then(user => {
           commit('AuthLoginSuccess', user);
           Vue.toasted.show('Welcome back, ' + user.username + '!');
+          appRouter.replace({
+            name: 'home',
+            query: {},
+            hash: null
+          });
           return Promise.resolve(user);
         })
         .catch(error => {
@@ -102,6 +118,23 @@ export default {
         .then(response => {
           commit('AuthForgotPassword', email);
           return Promise.resolve(true);
+        });
+    },
+    resetPassword ({ commit }, { email, password, password_confirmation, token }) {
+      commit('AuthResetRequest');
+      return authService.reset(email, password, password_confirmation, token)
+        .then(() => {
+          commit('AuthResetSuccess');
+          Vue.toasted.show('Your password has been reset, please login');
+          appRouter.replace('/?view=auth&auth=login');
+          return Promise.resolve(true);
+        })
+        .catch(error => {
+          console.log('err', error.response.data);
+          let err = error.response.data.errors[0].error;
+          let message = typeof err === 'string' ? err : err[0];
+          commit('AuthResetError', message);
+          return Promise.reject(message);
         });
     }
   }

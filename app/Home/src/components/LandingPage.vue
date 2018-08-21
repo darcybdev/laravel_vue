@@ -199,6 +199,11 @@ export default {
   components: {
     LoginRegister
   },
+  created () {
+    if (this.$route.query.view === 'auth') {
+      this.showAuth = true;
+    }
+  },
   data: () => ({
     showAuth: false
   })

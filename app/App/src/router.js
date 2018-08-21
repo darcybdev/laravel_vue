@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import _ from 'lodash';
 
 import Confirm from '@/Auth/src/components/Confirm';
 import Home from '@/Home/src/components/Home';
@@ -19,6 +20,24 @@ const appRouter = new Router({
     {
       path: '/auth/confirm',
       component: Confirm
+    },
+    {
+      path: '/auth/reset',
+      redirect: to => {
+        const { hash, params, query } = to;
+        let token;
+        _.each(query, (val, key) => {
+          token = key;
+        });
+        return {
+          name: 'home',
+          query: {
+            view: 'auth',
+            auth: 'reset',
+            token: token
+          }
+        };
+      }
     },
     {
       path: '/about',

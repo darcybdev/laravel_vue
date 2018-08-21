@@ -6,7 +6,6 @@ import { mapActions } from 'vuex';
 
 export default {
   created () {
-    console.log(this.$route.query);
     this.confirmAccount();
   },
   methods: {
