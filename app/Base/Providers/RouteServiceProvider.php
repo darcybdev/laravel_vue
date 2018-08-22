@@ -94,6 +94,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::middleware('api')
                     ->prefix('api/' . $nameLower)
                     ->namespace('App\\' . $name . '\\Http\\Controllers')
+                    ->as($nameLower . '.')
                     ->group($file);
             }
         }
