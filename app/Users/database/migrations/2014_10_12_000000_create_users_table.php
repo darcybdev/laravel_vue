@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('confirmation_code')->nullable();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

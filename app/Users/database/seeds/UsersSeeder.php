@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\Users\User;
 
-class UserSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
         $user = new User([
             'username' => 'admin',
             'email' => 'admin@example.org',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password'),
+            'active' => true
         ]);
-        $user->active = true;
         $user->save();
     }
 }
