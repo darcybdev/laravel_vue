@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 
-use App\User\User;
+use App\Users\User;
 use App\Base\Http\Controllers\Controller;
 use App\Common\Token;
 use App\Common\Response;
